@@ -9,6 +9,7 @@
 import { test as base, expect, type APIRequestContext, type TestInfo } from '@playwright/test';
 import { AdminSession, AuthClient } from '../api/auth.client';
 import type { Room, RoomPayload } from '../api/models';
+import { ReportClient } from '../api/report.client';
 import { RoomClient } from '../api/room.client';
 import { buildRoom } from '../data/room.builder';
 
@@ -19,6 +20,7 @@ type WorkerFixtures = {
   /** Admin token for this worker; logs in lazily and again after an environment reset. */
   adminSession: AdminSession;
   roomClient: RoomClient;
+  reportClient: ReportClient;
 };
 
 type TestFixtures = {
@@ -57,6 +59,13 @@ export const test = base.extend<TestFixtures, WorkerFixtures>({
   roomClient: [
     async ({ apiContext, adminSession }, use) => {
       await use(new RoomClient(apiContext, adminSession));
+    },
+    { scope: 'worker' },
+  ],
+
+  reportClient: [
+    async ({ apiContext }, use) => {
+      await use(new ReportClient(apiContext));
     },
     { scope: 'worker' },
   ],

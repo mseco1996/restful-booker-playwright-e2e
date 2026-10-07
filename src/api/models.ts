@@ -42,3 +42,16 @@ export type RoomListEntry = z.infer<typeof RoomListSchema>['rooms'][number];
 
 /** POST /api/auth/login. The token comes back in the JSON body; no cookie is set. */
 export const LoginResponseSchema = z.object({ token: z.string().min(1) });
+
+const ReportEntrySchema = z.object({ start: z.string(), end: z.string(), title: z.string() });
+export type ReportEntry = z.infer<typeof ReportEntrySchema>;
+
+/**
+ * GET /api/report/room/{id}. Today the API answers { report: [...] }; the platform's own route
+ * handler would answer a bare array, and fixing the bug below likely switches to it. Accept both,
+ * so the fix doesn't break our tests for the wrong reason.
+ */
+export const RoomReportSchema = z.union([
+  z.array(ReportEntrySchema),
+  z.object({ report: z.array(ReportEntrySchema) }).transform(({ report }) => report),
+]);
