@@ -1,0 +1,43 @@
+{
+  "name": "rbp-e2e",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Automated API and end-to-end tests for Restful Booker Platform (Playwright + TypeScript)",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:smoke": "playwright test --project=api --project=mobile-safari --grep @smoke --grep-invert @quarantine",
+    "test:regression": "playwright test --grep-invert @quarantine",
+    "test:quarantine": "playwright test --grep @quarantine",
+    "test:api": "playwright test --project=api",
+    "test:mobile": "playwright test --project=mobile-safari",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:list": "playwright test --list",
+    "report": "playwright show-report",
+    "codegen:mobile": "playwright codegen --device=\"iPhone 17\" https://automationintesting.online",
+    "browsers:install": "playwright install --with-deps webkit chromium",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "npm run typecheck && npm run lint && npm run format:check"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^22.19.0",
+    "@xray-app/playwright-junit-reporter": "^0.14.0",
+    "dotenv": "^18.0.6",
+    "eslint": "^10.12.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-playwright": "^2.12.1",
+    "prettier": "^3.9.9",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.71.1",
+    "zod": "^4.6.5"
+  }
+}

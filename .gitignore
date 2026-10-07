@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+
+# Local configuration and secrets (CI uses GitHub secrets)
+.env
+.env.*
+!.env.example
+
+# Playwright output
+test-results/
+playwright-report/
+blob-report/
+reports/
+playwright/.cache/
+
+# Saved login sessions (storageState). Contains live auth tokens.
+playwright/.auth/
+
+# Tooling caches
+*.tsbuildinfo
+.eslintcache
+
+# Logs
+npm-debug.log*
+*.log
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
