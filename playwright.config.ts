@@ -3,7 +3,8 @@ import { env } from './src/config/env';
 
 /**
  * Projects
- *   setup                health check + admin auth; every other project depends on it
+ *   health               is the target environment up? If not, everything else is skipped
+ *   setup                admin login check + saved admin session (runs after health)
  *   api                  API specs; no browser is launched
  *   mobile-safari        PRIMARY. iPhone 17 on WebKit, where most of our users are. PR gate runs here.
  *   mobile-safari-small  iPhone SE (3rd gen), narrowest common viewport; @mobile layout checks only
@@ -90,9 +91,15 @@ export default defineConfig({
 
   projects: [
     {
+      name: 'health',
+      testDir: './tests/setup',
+      testMatch: /health\.setup\.ts/,
+    },
+    {
       name: 'setup',
       testDir: './tests/setup',
-      testMatch: /.*\.setup\.ts/,
+      testMatch: /auth\.setup\.ts/,
+      dependencies: ['health'],
     },
     {
       name: 'api',
